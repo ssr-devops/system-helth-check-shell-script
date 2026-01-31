@@ -2,12 +2,14 @@
 
 # This script monitors CPU utilization and logs it to a file.
 
-CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}')
+#!/bin/bash
 
-THRESHOLD=50
+CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
+
+THRESHOLD=80
 
 if (( $(echo "$CPU_USAGE > $THRESHOLD" | bc -l) )); then
-    echo "$(date): High CPU usage detected: $CPU_USAGE%" >> /var/log/cpu_utilization.log
+  echo "ALERT 🚨 CPU usage is high: $CPU_USAGE%"
 else
-    echo "$(date): CPU usage is normal: $CPU_USAGE%" >> /var/log/cpu_utilization.log
+  echo "CPU usage is normal: $CPU_USAGE%"
 fi
