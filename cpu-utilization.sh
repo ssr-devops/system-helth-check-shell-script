@@ -4,7 +4,7 @@
 
 
 CPU_IDLE=$(top -bn1 | awk '/Cpu/ {print $8}')
-CPU_USAGE=$((100 - ${CPU_IDLE%.*}))
+CPU_USAGE=$((100% - ${CPU_IDLE%.*}))
 
 
 THRESHOLD=50
